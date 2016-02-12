@@ -11,18 +11,21 @@ public final class DateReaderContract {
     }
 
     private static final String TEXT_TYPE = " TEXT";
+    private static final String INT_TYPE = " INTEGER";
+    private static final String TIME_TYPE = " TIME";
+    private static final String DATE_TYPE = " DATE";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
         "CREATE TABLE " + DateEntry.TABLE_NAME + " (" +
             DateEntry._ID + " INTEGER PRIMARY KEY," +
-            DateEntry.COLUMN_NAME_ID + TEXT_TYPE + COMMA_SEP +
+            DateEntry.COLUMN_NAME_ID + INT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_IMAGE_PATH + TEXT_TYPE + COMMA_SEP +
-            DateEntry.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
-            DateEntry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
+            DateEntry.COLUMN_NAME_TIME + TIME_TYPE + COMMA_SEP +
+            DateEntry.COLUMN_NAME_DATE + DATE_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_CONTACTS + TEXT_TYPE + COMMA_SEP +
-            DateEntry.COLUMN_NAME_NOTES + TEXT_TYPE + COMMA_SEP +
+            DateEntry.COLUMN_NAME_NOTES + TEXT_TYPE +
             " )";
 
     private static final String SQL_DELETE_ENTRIES =

@@ -3,6 +3,7 @@ package atl.date_bail;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import atl.date_bail.model.DateInfo;
+
+public class MainActivity extends AppCompatActivity implements DateFragment.DateFragmentInteractionListener {
+    private String[] drawerTitles;
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +28,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String[] drawerTitles = getResources().getStringArray(R.array.draweritems);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerTitles = getResources().getStringArray(R.array.draweritems);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
 
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_item_layout, R.id.drawerTitleTxt, drawerTitles));
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //todo: switch fragments
-                Snackbar.make(view, "pos: " + position + "", Snackbar.LENGTH_SHORT).setAction("Woops", null).show();
+                switchFragment(position);
             }
         });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -65,5 +71,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void switchFragment(int position) {
+        Fragment fragment = null;
+        switch (position) {
+            case 0: {
+                fragment = new DateFragment();
+                break;
+            }
+            case 1: {
+
+                break;
+            }
+            case 2: {
+                break;
+            }
+            default: {
+
+            }
+        }
+        if (fragment != null) {
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        }
+        drawerList.setItemChecked(position, true);
+        setTitle(drawerTitles[position]);
+        drawerLayout.closeDrawer(drawerList);
+    }
+
+    @Override
+    public void onListClick(DateInfo item) {
+
     }
 }

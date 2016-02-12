@@ -1,7 +1,7 @@
 package atl.date_bail.model;
 
 public class DateInfo {
-    private String id;
+    private Long id;
     private String name;
     private String img;
     private String time;
@@ -10,7 +10,7 @@ public class DateInfo {
     private String bailouts;
     private String notes;
 
-    public DateInfo(String id, String name, String img, String time, String date, String location, String bailouts, String notes) {
+    public DateInfo(Long id, String name, String img, String time, String date, String location, String bailouts, String notes) {
         this.id = id;
         this.name = name;
         this.img = img;
@@ -21,11 +21,14 @@ public class DateInfo {
         this.notes = notes;
     }
 
-    public String getId() {
+    public DateInfo() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
