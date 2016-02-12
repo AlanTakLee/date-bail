@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo: switch fragments
                 Snackbar.make(view, "pos: " + position + "", Snackbar.LENGTH_SHORT).setAction("Woops", null).show();
             }
         });
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //todo: open form activity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             }
