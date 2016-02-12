@@ -7,7 +7,8 @@ import android.provider.BaseColumns;
  */
 public final class DateReaderContract {
 
-    public DateReaderContract() {}
+    public DateReaderContract() {
+    }
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -22,7 +23,7 @@ public final class DateReaderContract {
             DateEntry.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_CONTACTS + TEXT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_NOTES + TEXT_TYPE + COMMA_SEP +
-        " )";
+            " )";
 
     private static final String SQL_DELETE_ENTRIES =
         "DROP TABLE IF EXISTS " + DateEntry.TABLE_NAME;
@@ -37,5 +38,13 @@ public final class DateReaderContract {
         public static final String COLUMN_NAME_LOCATION = "dateLocation";
         public static final String COLUMN_NAME_CONTACTS = "dateBailouts";
         public static final String COLUMN_NAME_NOTES = "dateNotes";
+    }
+
+    public String getUpString() {
+        return SQL_CREATE_ENTRIES;
+    }
+
+    public String getDownString() {
+        return SQL_DELETE_ENTRIES;
     }
 }
