@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
 
     @Override
     public void onListClick(DateInfo item) {
-
+        Intent intent = new Intent(this, FormActivity.class);
+        Bundle extras = new Bundle();
+        extras.putLong("id", item.getId());
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 }

@@ -40,43 +40,40 @@ public class DateFragment extends Fragment {
     }
 
     private void populateArray(Cursor data, List<DateInfo> dates) {
-        Log.i("populating", "I'm trying to read");
         while (data.moveToNext()) {
             DateInfo current = new DateInfo();
-            Log.i("populating", "I'm in here.");
-            for (int j = 0; j < data.getColumnCount(); j++) {
+            for (int j = 1; j < data.getColumnCount(); j++) {
                 switch (j) {
-                    case 0: {
+                    case 1: {
                         current.setId(data.getLong(j));
                         break;
                     }
-                    case 1: {
+                    case 2: {
                         current.setName(data.getString(j));
                         break;
                     }
-                    case 2: {
+                    case 3: {
                         current.setTime(data.getString(j));
                         break;
                     }
-                    case 3: {
+                    case 4: {
                         current.setDate(data.getString(j));
                         break;
                     }
-                    case 4: {
+                    case 5: {
                         current.setLocation(data.getString(j));
                         break;
                     }
-                    case 5: {
+                    case 6: {
                         current.setBailouts(data.getString(j));
                         break;
                     }
-                    case 6: {
+                    case 7: {
                         current.setNotes(data.getString(j));
                         break;
                     }
                 }
             }
-            Log.i("populating", "I'm adding?:" + current.getBailouts());
             dates.add(current);
         }
         data.moveToLast();
@@ -90,21 +87,11 @@ public class DateFragment extends Fragment {
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String[] projection = {
-            DateReaderContract.DateEntry.COLUMN_NAME_ID,
-            DateReaderContract.DateEntry.COLUMN_NAME_NAME,
-            DateReaderContract.DateEntry.COLUMN_NAME_TIME,
-            DateReaderContract.DateEntry.COLUMN_NAME_DATE,
-            DateReaderContract.DateEntry.COLUMN_NAME_LOCATION,
-            DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS,
-            DateReaderContract.DateEntry.COLUMN_NAME_NOTES
-        };
-
         String sortOrder = DateReaderContract.DateEntry.COLUMN_NAME_DATE + " DESC";
 
         return db.query(
             DateReaderContract.DateEntry.TABLE_NAME,  // The table to query
-            projection,                               // The columns to return
+            null,                               // The columns to return
             null,                                // The columns for the WHERE clause
             null,                            // The values for the WHERE clause
             null,                                     // don't group the rows
@@ -128,7 +115,6 @@ public class DateFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -147,7 +133,6 @@ public class DateFragment extends Fragment {
     }
 
     public interface DateFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListClick(DateInfo item);
     }
 }

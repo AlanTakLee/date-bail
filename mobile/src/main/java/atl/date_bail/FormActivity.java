@@ -13,6 +13,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.TimePicker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -49,15 +51,108 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
         currentDateInfo = new DateInfo();
+        Intent intent = getIntent();
+        Bundle bund = intent.getExtras();
+        if (bund != null) {
+            long maybeId = bund.getLong("id", -1);
+            if (maybeId > -1) {
+                fetchCurrentDateInfo(maybeId);
+                populateForm();
+            }
+        }
         setupToolbar();
         setupTimePicker();
         setupDatePicker();
         setupContactPicker();
-        //TODO: on create, check is message was passed in
+    }
+
+    private void populateForm() {
+        EditText titleTxt = (EditText) findViewById(R.id.dateFormEventNameEditText);
+        TextView dateTxt = (TextView) findViewById(R.id.dateFormEventDateText);
+        TextView timeTxt = (TextView) findViewById(R.id.dateFormEventTimeText);
+        EditText locaTxt = (EditText) findViewById(R.id.dateFormEventLocationEditText);
+        EditText noteTxt = (EditText) findViewById(R.id.dateFormEventDescriptionEditText);
+        contact1 = (TextView) findViewById(R.id.dateFormEventPrimaryText);
+        contact2 = (TextView) findViewById(R.id.dateFormEventSecondaryText);
+
+        titleTxt.setText(currentDateInfo.getName());
+        dateTxt.setText(currentDateInfo.getDate());
+        timeTxt.setText(currentDateInfo.getTime());
+        locaTxt.setText(currentDateInfo.getLocation());
+        noteTxt.setText(currentDateInfo.getNotes());
+
+        String[] peoples = currentDateInfo.getBailouts().split("\n");
+        ArrayList<String> bails = new ArrayList<>();
+        for (String ppl : peoples) {
+            String[] temp = ppl.split(",");
+            for (String str : temp) {
+                Log.i("split", str);
+            }
+            bails.add(temp[0]);
+            bails.add(temp[1]);
+        }
+        String c1 = bails.get(0) + "\n" + bails.get(1);
+        contact1.setText(c1);
+        String c2 = bails.get(2) + "\n" + bails.get(3);
+        contact2.setText(c2);
+    }
+
+    private void fetchCurrentDateInfo(long id) {
+        DateReaderDbHelper readerDbHelper = new DateReaderDbHelper(this);
+        SQLiteDatabase db = readerDbHelper.getReadableDatabase();
+        String[] args = new String[1];
+        args[0] = "" + id;
+        Cursor data = db.query(
+            DateReaderContract.DateEntry.TABLE_NAME,  // The table to query
+            null,                               // The columns to return
+            DateReaderContract.DateEntry.COLUMN_NAME_ID + "=?", // The columns for the WHERE clause
+            args,                            // The values for the WHERE clause
+            null,                                     // don't group the rows
+            null,                                     // don't filter by row groups
+            null                                 // The sort order
+        );
+
+        while (data.moveToNext()) {
+            DateInfo current = new DateInfo();
+            for (int j = 1; j < data.getColumnCount(); j++) {
+                switch (j) {
+                    case 1: {
+                        current.setId(data.getLong(j));
+                        break;
+                    }
+                    case 2: {
+                        current.setName(data.getString(j));
+                        break;
+                    }
+                    case 3: {
+                        current.setTime(data.getString(j));
+                        break;
+                    }
+                    case 4: {
+                        current.setDate(data.getString(j));
+                        break;
+                    }
+                    case 5: {
+                        current.setLocation(data.getString(j));
+                        break;
+                    }
+                    case 6: {
+                        current.setBailouts(data.getString(j));
+                        break;
+                    }
+                    case 7: {
+                        current.setNotes(data.getString(j));
+                        break;
+                    }
+                }
+            }
+            currentDateInfo = current;
+        }
+        data.close();
     }
 
     private void setupDatePicker() {
-        RelativeLayout datelayout = (RelativeLayout) findViewById(R.id.dateFormDateLayout);
+        RelativeLayout dateLayout = (RelativeLayout) findViewById(R.id.dateFormDateLayout);
         ImageView calImg = (ImageView) findViewById(R.id.dateFormEventDateIcon);
         final TextView date = (TextView) findViewById(R.id.dateFormEventDateText);
 
@@ -70,7 +165,7 @@ public class FormActivity extends AppCompatActivity {
             }
         };
 
-        datelayout.setOnClickListener(datePick);
+        dateLayout.setOnClickListener(datePick);
         date.setOnClickListener(datePick);
         calImg.setOnClickListener(datePick);
     }
@@ -125,7 +220,6 @@ public class FormActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo: save form data
                 saveData();
                 finish();
             }
@@ -203,14 +297,15 @@ public class FormActivity extends AppCompatActivity {
         String nameToSave = titleTxt.getText().toString();
         String locationToSave = locationTxt.getText().toString();
         StringBuilder strBuilder = new StringBuilder();
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             String n = names[i];
             String p = numbers[i];
             if (p != null && !p.isEmpty()) {
-                String clean = p.replace("(", "").replace(" ", "").replace("-", "").replace(")", "");
+                String clean = PhoneNumberUtils.normalizeNumber(p);
+                String formattedNumber = PhoneNumberUtils.formatNumber(clean);
                 strBuilder.append(n);
                 strBuilder.append(", ");
-                strBuilder.append(clean);
+                strBuilder.append(formattedNumber);
                 strBuilder.append('\n');
             } else {
                 strBuilder.append("");
