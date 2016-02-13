@@ -5,4 +5,8 @@
     <string name="logo">Logo</string>
     <!--<string name="aboot">This app was written during the 2016 SFU Hackentine's Hackathon. The idea was to do something new with a valentine\'s theme, so we decided to go against the norm and instead of helping get dates, this app will help you bail on one.\n\n\nCreated by: Alan Lee(alantaklee), Chris Kuan(chrisk23)</string>-->
     <string name="aboot">This app was written during the 2016 SFU Hackentine\'s Hackathon. With the explosion of dating and hookup apps in recent years, we figured that what people might need are not more ways to get dates, but more ways to escape the bad ones.\n\"Don\'t stick your d*** in crazy\"\n - Abraham Lincoln\n\n\nDevelopers: Alan Lee(alantaklee)\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Chris Kuan(chrisk23)</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
