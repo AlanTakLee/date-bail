@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
                 break;
             }
             case 2: {
+                fragment = new AboutFragment();
                 break;
             }
             default: {
