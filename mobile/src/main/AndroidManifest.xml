@@ -15,9 +15,14 @@
         <receiver
             android:name=".services.BailAlarmReceiver"
             android:process=":remote"/>
+
         <service
             android:name=".services.BailingService"
             android:exported="false"/>
+        <service
+            android:name=".services.DelayBailService"
+            android:exported="false"
+            />
 
         <activity
             android:name=".MainActivity"

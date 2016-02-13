@@ -14,11 +14,10 @@ public class BailAlarmer {
     public void setAlarm(Context context, long dateId) {
         // get a Calendar object with current time
         Calendar cal = Calendar.getInstance();
-        // add 5 minutes to the calendar object
-//        cal.add(Calendar.MINUTE, 5);
+        // add 15 minutes to the calendar object
+//        cal.add(Calendar.MINUTE, 15);
         cal.add(Calendar.SECOND, 3);
         Intent intent = new Intent(context, BailAlarmReceiver.class);
-        intent.putExtra("message", "Do you need to get bailed out?");
         intent.putExtra("id", dateId);
         PendingIntent sender = PendingIntent.getBroadcast(context, BAIL_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

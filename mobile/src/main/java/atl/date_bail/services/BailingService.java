@@ -1,6 +1,8 @@
 package atl.date_bail.services;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -82,19 +84,17 @@ public class BailingService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        NotificationManager mNotificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(BailAlarmReceiver.BAIL_NOTI_ID);
         Bundle bundle = intent.getExtras();
-//        Log.i("boop", "Handling intent");
         if (bundle != null) {
             long maybeId = bundle.getLong("id", -1);
             if (maybeId > -1) {
                 SmsManager smsManager = SmsManager.getDefault();
                 DateInfo currentData = loadData(maybeId);
                 String[] peoples = currentData.getBailouts().split("\n");
-//                for (String str : peoples) Log.i("Ppls", str);
                 String[] person1 = peoples[0].split(",");
-//                for (String str : person1) Log.i("Ppls1", str);
                 String[] person2 = peoples[1].split(",");
-//                for (String str : person2) Log.i("Ppls2", str);
                 smsManager.sendTextMessage(person1[1], null, "Hey " + person1[0] + ", I need you to bail me out of this bad date.", null, null);
                 smsManager.sendTextMessage(person2[1], null, "Hey " + person2[0] + ", I need you to bail me out of this bad date.", null, null);
             }

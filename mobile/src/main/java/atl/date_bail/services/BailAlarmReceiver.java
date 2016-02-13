@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import atl.date_bail.MainActivity;
 import atl.date_bail.R;
-import atl.date_bail.services.BailingService;
 
 public class BailAlarmReceiver extends BroadcastReceiver {
+    public static final int BAIL_NOTI_ID = 1945;
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
@@ -25,8 +25,12 @@ public class BailAlarmReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context context, long maybeid) {
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 1000, new Intent(context, MainActivity.class), 0);
-        PendingIntent delay = PendingIntent.getActivity(context, 1001, new Intent(context, MainActivity.class), PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 1945, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent delayIntent = new Intent(context, DelayBailService.class);
+        delayIntent.putExtra("id", maybeid);
+        PendingIntent delay = PendingIntent.getService(context, 1001, delayIntent, PendingIntent.FLAG_ONE_SHOT);
+
         Intent bailIntent = new Intent(context, BailingService.class);
         bailIntent.putExtra("id", maybeid);
         PendingIntent bail = PendingIntent.getService(context, 1002, bailIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -38,12 +42,12 @@ public class BailAlarmReceiver extends BroadcastReceiver {
                 .setContentText("Would you like to bail or nail?");
         mBuilder.addAction(R.drawable.ic_thumb_up_white_48dp, "Later", delay);
         mBuilder.addAction(R.drawable.ic_thumb_down_white_48dp, "BAIL!", bail);
+        mBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
-
+        mNotificationManager.notify(BAIL_NOTI_ID, mBuilder.build());
     }
 }
