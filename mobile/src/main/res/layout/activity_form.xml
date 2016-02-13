@@ -23,6 +23,13 @@
             android:maxWidth="32dp"
             android:minHeight="32dp"
             android:minWidth="32dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:contentDescription="@string/logo"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/DateBailName_line_v2_trans"/>
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
