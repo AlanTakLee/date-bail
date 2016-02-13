@@ -13,24 +13,12 @@
         android:background="?attr/colorPrimary">
 
         <Button
-            android:id="@+id/formToolbarBackBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="start"
-            android:background="@drawable/ic_arrow_back_white_48dp"
-            android:maxHeight="32dp"
-            android:maxWidth="32dp"
-            android:minHeight="32dp"
-            android:minWidth="32dp"/>
-
-        <Button
             android:id="@+id/formToolbarSaveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            android:background="@drawable/ic_add_white_48dp"
+            android:background="@drawable/ic_check_white_48dp"
             android:maxHeight="32dp"
             android:maxWidth="32dp"
             android:minHeight="32dp"
