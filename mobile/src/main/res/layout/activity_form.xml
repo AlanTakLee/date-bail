@@ -178,14 +178,6 @@
                 android:spinnerMode="dialog"/>
 
             <Spinner
-                android:id="@+id/dateFormEventResponseSpinnerDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                android:spinnerMode="dialog"/>
-
-            <Spinner
                 android:id="@+id/dateFormEventVibrationSpinnerDialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
