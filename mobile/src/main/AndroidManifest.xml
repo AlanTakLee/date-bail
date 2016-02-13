@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name="BailAlarmReceiver"
+            android:name=".services.BailAlarmReceiver"
             android:process=":remote"/>
         <service
-            android:name=".BailingService"
+            android:name=".services.BailingService"
             android:exported="false"/>
 
         <activity

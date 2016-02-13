@@ -1,4 +1,4 @@
-package atl.date_bail;
+package atl.date_bail.services;
 
 import android.app.IntentService;
 import android.content.Intent;

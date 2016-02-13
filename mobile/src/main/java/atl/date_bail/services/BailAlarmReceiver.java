@@ -1,4 +1,4 @@
-package atl.date_bail;
+package atl.date_bail.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
+
+import atl.date_bail.MainActivity;
+import atl.date_bail.R;
+import atl.date_bail.services.BailingService;
 
 public class BailAlarmReceiver extends BroadcastReceiver {
     @Override
