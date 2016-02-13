@@ -48,8 +48,7 @@ public class DateFragment extends Fragment {
         super.onCreate(savedInstanceState);
         items = new ArrayList<>();
         populateFakeData();
-        Cursor data = readFakeData();
-        data.moveToFirst();
+        Cursor data = readData();
         populateArray(data, items);
     }
 
@@ -93,10 +92,11 @@ public class DateFragment extends Fragment {
                 }
             }
             dates.add(current);
+            data.moveToNext();
         }
     }
 
-    private Cursor readFakeData() {
+    private Cursor readData() {
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -118,8 +118,8 @@ public class DateFragment extends Fragment {
         String sortOrder =
             DateReaderContract.DateEntry.COLUMN_NAME_ID + " DESC";
 
-        String selection = "*";
-        return db.query(
+
+        Cursor data = db.query(
             DateReaderContract.DateEntry.TABLE_NAME,  // The table to query
             projection,                               // The columns to return
             null,                                // The columns for the WHERE clause
@@ -128,6 +128,8 @@ public class DateFragment extends Fragment {
             null,                                     // don't filter by row groups
             sortOrder                                 // The sort order
         );
+        data.moveToFirst();
+        return data;
     }
 
     private void populateFakeData() {
@@ -151,8 +153,8 @@ public class DateFragment extends Fragment {
 
         ArrayList<String> dates = new ArrayList<>();
         dates.add("2016-2-14");
-        dates.add("2016-2-14");
-        dates.add("2016-2-14");
+        dates.add("2016-3-14");
+        dates.add("2016-4-14");
 
         ArrayList<String> times = new ArrayList<>();
         times.add("14:00:14");
@@ -160,9 +162,9 @@ public class DateFragment extends Fragment {
         times.add("14:00:14");
 
 
-// Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
+        // Create a new map of values, where column names are the keys
         for (int i = 0; i < 3; i++) {
+            ContentValues values = new ContentValues();
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, ids.get(i));
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_NAME, names.get(i));
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_IMAGE_PATH, names.get(i));
@@ -171,13 +173,12 @@ public class DateFragment extends Fragment {
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_LOCATION, names.get(i));
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS, names.get(i));
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_NOTES, names.get(i));
+            // Insert the new row, returning the primary key value of the new row
+            db.insert(
+                DateReaderContract.DateEntry.TABLE_NAME,
+                null,
+                values);
         }
-
-// Insert the new row, returning the primary key value of the new row
-        db.insert(
-            DateReaderContract.DateEntry.TABLE_NAME,
-            null,
-            values);
     }
 
     @Override

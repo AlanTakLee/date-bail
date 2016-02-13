@@ -2,7 +2,6 @@
 <resources>
     <string-array name="draweritems">
         <item>Dates</item>
-        <item>Settings</item>
         <item>Aboot</item>
     </string-array>
 </resources>

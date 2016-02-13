@@ -31,5 +31,6 @@ proguard/
 # Android Studio captures folder
 captures/
 
-#ignore idea folder
+# Ignore idea folder/files
 .idea/
+*.iml

@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo: switch fragments
                 switchFragment(position);
             }
         });
+        drawerList.performItemClick(drawerList.getAdapter().getView(0, null, null), 0, 0);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: open form activity
+                //todo: open form activity with empty text
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             }
@@ -81,10 +82,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
                 break;
             }
             case 1: {
-
-                break;
-            }
-            case 2: {
+                fragment = new AboutFragment();
                 break;
             }
             default: {
