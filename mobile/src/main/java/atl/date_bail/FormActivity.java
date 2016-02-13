@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -371,14 +370,12 @@ public class FormActivity extends AppCompatActivity {
                 DateReaderContract.DateEntry.TABLE_NAME,
                 null,
                 values);
-            Log.i("db", "wrote to db new");
         } else {
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
             String selection = DateReaderContract.DateEntry.COLUMN_NAME_ID + " LIKE ?";
             String[] args = {String.valueOf(currentDateInfo.getId())};
             db.update(DateReaderContract.DateEntry.TABLE_NAME,
                 values, selection, args);
-            Log.i("db", "tried to update db");
         }
 
         finish();

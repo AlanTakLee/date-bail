@@ -33,7 +33,7 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.titleTxt.setText(mValues.get(position).getName());
+        holder.titleTxt.setText(mValues.get(position).getName() + " " + mValues.get(position).getId());
         holder.timeTxt.setText(mValues.get(position).getDate());
         holder.contactTxt.setText(mValues.get(position).getBailouts());
 

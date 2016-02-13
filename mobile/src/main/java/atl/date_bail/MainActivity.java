@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         if (id == R.id.action_settings) {
             Log.i("bug", "tapped");
             BailAlarmer ba = new BailAlarmer();
-            ba.setAlarm(this);
+            ba.setAlarm(this, 1);
         }
 
         return super.onOptionsItemSelected(item);
