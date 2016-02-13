@@ -18,6 +18,7 @@ import java.util.List;
 import atl.date_bail.model.DateInfo;
 import atl.date_bail.model.DateReaderContract;
 import atl.date_bail.model.DateReaderDbHelper;
+import atl.date_bail.model.IdHolder;
 
 public class DateFragment extends Fragment {
 
@@ -84,6 +85,9 @@ public class DateFragment extends Fragment {
             dates.add(current);
             data.moveToNext();
         }
+
+        data.moveToLast();
+        IdHolder.getInstance().setLastId(data.getLong(0) + 1);
     }
 
     private Cursor readData() {
@@ -142,9 +146,9 @@ public class DateFragment extends Fragment {
         dates.add("2016-4-14");
 
         ArrayList<String> times = new ArrayList<>();
-        times.add("14:00:14");
-        times.add("14:00:14");
-        times.add("14:00:14");
+        times.add("02:00:14 am");
+        times.add("02:00:14 pm");
+        times.add("03:00:14 am");
 
 
         // Create a new map of values, where column names are the keys

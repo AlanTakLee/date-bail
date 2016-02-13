@@ -1,5 +1,6 @@
 package atl.date_bail;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -10,20 +11,24 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import atl.date_bail.model.DateInfo;
+import atl.date_bail.model.IdHolder;
 
 public class FormActivity extends AppCompatActivity {
 
@@ -32,17 +37,37 @@ public class FormActivity extends AppCompatActivity {
     final int CONTACT_PICKER_RESULT1 = 1001;
     final int CONTACT_PICKER_RESULT2 = 1002;
     private String[] numbers = new String[2];
-    private DateInfo currentDate;
+    private DateInfo currentDateInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-        currentDate = new DateInfo();
+        currentDateInfo = new DateInfo();
         setupToolbar();
         setupTimePicker();
+        setupDatePicker();
         setupContactPicker();
         //TODO: on create, check is message was passed in
+    }
+
+    private void setupDatePicker() {
+        RelativeLayout datelayout = (RelativeLayout) findViewById(R.id.dateFormDateLayout);
+        ImageView calImg = (ImageView) findViewById(R.id.dateFormEventDateIcon);
+        final TextView date = (TextView) findViewById(R.id.dateFormEventDateText);
+
+        View.OnClickListener datePick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dateFrag = new DatePickerFragment();
+                ((DatePickerFragment) dateFrag).setToEdit(date);
+                dateFrag.show(getSupportFragmentManager(), "datePick");
+            }
+        };
+
+        datelayout.setOnClickListener(datePick);
+        date.setOnClickListener(datePick);
+        calImg.setOnClickListener(datePick);
     }
 
     private void setupTimePicker() {
@@ -96,6 +121,7 @@ public class FormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo: save form data
+                saveData();
                 finish();
             }
         });
@@ -163,7 +189,23 @@ public class FormActivity extends AppCompatActivity {
 
     private void saveData() {
         EditText titleTxt = (EditText) findViewById(R.id.dateFormEventNameEditText);
+        EditText locationTxt = (EditText) findViewById(R.id.dateFormEventLocationEditText);
+        EditText descTxt = (EditText) findViewById(R.id.dateFormEventDescriptionEditText);
 
+        currentDateInfo.setName(titleTxt.getText().toString());
+        currentDateInfo.setLocation(locationTxt.getText().toString());
+        currentDateInfo.setNotes(descTxt.getText().toString());
+
+        StringBuilder strBuilder = new StringBuilder();
+        for (String s: numbers){
+            strBuilder.append(s);
+        }
+        currentDateInfo.setBailouts(strBuilder.toString());
+
+        Log.i("debug", strBuilder.toString());
+        currentDateInfo.setDate(IdHolder.getInstance().getSaveDate());
+        currentDateInfo.setTime(IdHolder.getInstance().getSaveTime());
+        currentDateInfo.setId(IdHolder.getInstance().getLastId());
         finish();
     }
 
@@ -190,8 +232,43 @@ public class FormActivity extends AppCompatActivity {
             Calendar instance = Calendar.getInstance();
             instance.set(Calendar.HOUR_OF_DAY, hourOfDay);
             instance.set(Calendar.MINUTE, minute);
+            instance.set(Calendar.SECOND, 0);
             SimpleDateFormat format = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
             String toDisplay = format.format(instance.getTime());
+
+            SimpleDateFormat format1 = new SimpleDateFormat("hh:mm:ss aa", Locale.getDefault());
+            IdHolder.getInstance().setSaveTime(format1.format(instance.getTime()));
+            toEdit.setText(toDisplay);
+        }
+    }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        private TextView toEdit;
+
+        public void setToEdit(TextView view) {
+            toEdit = view;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            Calendar instance = Calendar.getInstance();
+            instance.set(Calendar.YEAR, year);
+            instance.set(Calendar.MONTH, monthOfYear);
+            instance.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            String toDisplay = DateFormat.getDateInstance().format(instance.getTime());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
+            IdHolder.getInstance().setSaveDate(format.format(instance.getTime()));
             toEdit.setText(toDisplay);
         }
     }
