@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
     private String[] drawerTitles;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
+    private int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         drawerList.setItemChecked(position, true);
         setTitle(drawerTitles[position]);
         drawerLayout.closeDrawer(drawerList);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        switchFragment(currentPosition);
     }
 
     @Override

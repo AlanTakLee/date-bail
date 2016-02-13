@@ -62,10 +62,26 @@ public class FormActivity extends AppCompatActivity {
                 populateForm();
             }
         }
+        setupDeleteButton();
         setupToolbar();
         setupTimePicker();
         setupDatePicker();
         setupContactPicker();
+    }
+
+    private void setupDeleteButton() {
+        final DateReaderDbHelper mDbHelper = new DateReaderDbHelper(this);
+        Button button = (Button) findViewById(R.id.dateFormEventButtonDelete);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                String selection = DateReaderContract.DateEntry.COLUMN_NAME_ID + " LIKE ?";
+                String[] args = {String.valueOf(currentDateInfo.getId())};
+                db.delete(DateReaderContract.DateEntry.TABLE_NAME, selection, args);
+                finish();
+            }
+        });
     }
 
     private void populateForm() {
