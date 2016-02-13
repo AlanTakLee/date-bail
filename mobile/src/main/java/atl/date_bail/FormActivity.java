@@ -45,6 +45,7 @@ public class FormActivity extends AppCompatActivity {
     private String[] numbers = new String[2];
     private String[] names = new String[2];
     private DateInfo currentDateInfo;
+    private Boolean newInfo = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class FormActivity extends AppCompatActivity {
         if (bund != null) {
             long maybeId = bund.getLong("id", -1);
             if (maybeId > -1) {
+                newInfo = false;
                 fetchCurrentDateInfo(maybeId);
                 populateForm();
             }
@@ -85,16 +87,18 @@ public class FormActivity extends AppCompatActivity {
         ArrayList<String> bails = new ArrayList<>();
         for (String ppl : peoples) {
             String[] temp = ppl.split(",");
-            for (String str : temp) {
-                Log.i("split", str);
-            }
             bails.add(temp[0]);
             bails.add(temp[1]);
         }
         String c1 = bails.get(0) + "\n" + bails.get(1);
         contact1.setText(c1);
+        names[0] = bails.get(0);
+        numbers[0] = bails.get(1);
+
         String c2 = bails.get(2) + "\n" + bails.get(3);
         contact2.setText(c2);
+        names[1] = bails.get(2);
+        numbers[1] = bails.get(3);
     }
 
     private void fetchCurrentDateInfo(long id) {
@@ -292,11 +296,14 @@ public class FormActivity extends AppCompatActivity {
         EditText titleTxt = (EditText) findViewById(R.id.dateFormEventNameEditText);
         EditText locationTxt = (EditText) findViewById(R.id.dateFormEventLocationEditText);
         EditText descTxt = (EditText) findViewById(R.id.dateFormEventDescriptionEditText);
+        TextView dateTxt = (TextView) findViewById(R.id.dateFormEventDateText);
+        TextView timeTxt = (TextView) findViewById(R.id.dateFormEventTimeText);
+        ContentValues values = new ContentValues();
+        StringBuilder strBuilder = new StringBuilder();
 
         Long idToSave = IdHolder.getInstance().getLastId() + 1;
         String nameToSave = titleTxt.getText().toString();
         String locationToSave = locationTxt.getText().toString();
-        StringBuilder strBuilder = new StringBuilder();
         for (int i = 0; i < 2; i++) {
             String n = names[i];
             String p = numbers[i];
@@ -323,24 +330,40 @@ public class FormActivity extends AppCompatActivity {
         currentDateInfo.setBailouts(bailersToSave);
         currentDateInfo.setDate(IdHolder.getInstance().getSaveDate());
         currentDateInfo.setTime(IdHolder.getInstance().getSaveTime());
-        currentDateInfo.setId(idToSave);
 
-        ContentValues values = new ContentValues();
-        values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, idToSave);
+        if (newInfo) {
+            currentDateInfo.setId(idToSave);
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, idToSave);
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeToSave);
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateToSave);
+        } else {
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, currentDateInfo.getId());
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeTxt.getText().toString());
+            values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateTxt.getText().toString());
+
+        }
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_NAME, nameToSave);
-        values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeToSave);
-        values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateToSave);
+
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_LOCATION, locationToSave);
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS, bailersToSave);
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_NOTES, notesToSave);
         // Insert the new row, returning the primary key value of the new row
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        long insert = db.insert(
-            DateReaderContract.DateEntry.TABLE_NAME,
-            null,
-            values);
-        Log.i("insertion", "Long: " + insert);
+        if (newInfo) {
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            db.insert(
+                DateReaderContract.DateEntry.TABLE_NAME,
+                null,
+                values);
+            Log.i("db", "wrote to db new");
+        } else {
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            String selection = DateReaderContract.DateEntry.COLUMN_NAME_ID + " LIKE ?";
+            String[] args = {String.valueOf(currentDateInfo.getId())};
+            db.update(DateReaderContract.DateEntry.TABLE_NAME,
+                values, selection, args);
+            Log.i("db", "tried to update db");
+        }
 
         finish();
     }
