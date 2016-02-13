@@ -95,8 +95,10 @@ public class BailingService extends IntentService {
                 String[] peoples = currentData.getBailouts().split("\n");
                 String[] person1 = peoples[0].split(",");
                 String[] person2 = peoples[1].split(",");
-                smsManager.sendTextMessage(person1[1], null, "Hey " + person1[0] + ", I need you to bail me out of this bad date.", null, null);
-                smsManager.sendTextMessage(person2[1], null, "Hey " + person2[0] + ", I need you to bail me out of this bad date.", null, null);
+                smsManager.sendTextMessage(person1[1], null, "Hey " + person1[0].split(" ")[0] + ", " +
+                    "I need you to bail me out of this bad date. Give me a call?", null, null);
+                smsManager.sendTextMessage(person2[1], null, "Hey " + person2[0].split(" ")[0] + ", " +
+                    "I need you to bail me out of this bad date. Give me a call?", null, null);
             }
         }
     }
