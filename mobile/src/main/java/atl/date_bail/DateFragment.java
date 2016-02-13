@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,10 @@ public class DateFragment extends Fragment {
     }
 
     private void populateArray(Cursor data, List<DateInfo> dates) {
+        Log.i("populating", "I'm trying to read");
         while (data.moveToNext()) {
             DateInfo current = new DateInfo();
+            Log.i("populating", "I'm in here.");
             for (int j = 0; j < data.getColumnCount(); j++) {
                 switch (j) {
                     case 0: {
@@ -73,12 +76,14 @@ public class DateFragment extends Fragment {
                     }
                 }
             }
+            Log.i("populating", "I'm adding?:" + current.getBailouts());
             dates.add(current);
-            data.moveToNext();
         }
-
         data.moveToLast();
-        IdHolder.getInstance().setLastId(data.getLong(0));
+        if (data.getPosition() > 0)
+            IdHolder.getInstance().setLastId(data.getLong(0));
+        else
+            IdHolder.getInstance().setLastId(0L);
     }
 
     private Cursor readData() {
@@ -93,12 +98,11 @@ public class DateFragment extends Fragment {
             DateReaderContract.DateEntry.COLUMN_NAME_LOCATION,
             DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS,
             DateReaderContract.DateEntry.COLUMN_NAME_NOTES
-
         };
 
         String sortOrder = DateReaderContract.DateEntry.COLUMN_NAME_DATE + " DESC";
 
-        Cursor data = db.query(
+        return db.query(
             DateReaderContract.DateEntry.TABLE_NAME,  // The table to query
             projection,                               // The columns to return
             null,                                // The columns for the WHERE clause
@@ -107,8 +111,6 @@ public class DateFragment extends Fragment {
             null,                                     // don't filter by row groups
             sortOrder                                 // The sort order
         );
-        data.moveToFirst();
-        return data;
     }
 
     @Override

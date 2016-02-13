@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import atl.date_bail.model.DateInfo;
@@ -33,6 +35,7 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
         holder.mItem = mValues.get(position);
         holder.titleTxt.setText(mValues.get(position).getName());
         holder.timeTxt.setText(mValues.get(position).getDate());
+        holder.contactTxt.setText(mValues.get(position).getBailouts());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +58,7 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
         public final View view;
         public final TextView titleTxt;
         public final TextView timeTxt;
-        public final ImageView iconImg;
+        public final TextView contactTxt;
         public DateInfo mItem;
 
         public ViewHolder(View view) {
@@ -63,7 +66,7 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
             this.view = view;
             titleTxt = (TextView) view.findViewById(R.id.dateSummaryTitleTxt);
             timeTxt = (TextView) view.findViewById(R.id.dateSummaryTimeTxt);
-            iconImg = (ImageView) view.findViewById(R.id.dateSummaryImg);
+            contactTxt = (TextView) view.findViewById(R.id.dateSummaryContactTxt);
         }
 
         @Override

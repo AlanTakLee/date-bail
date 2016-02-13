@@ -41,6 +41,7 @@ public class FormActivity extends AppCompatActivity {
     final int CONTACT_PICKER_RESULT1 = 1001;
     final int CONTACT_PICKER_RESULT2 = 1002;
     private String[] numbers = new String[2];
+    private String[] names = new String[2];
     private DateInfo currentDateInfo;
 
     @Override
@@ -173,12 +174,14 @@ public class FormActivity extends AppCompatActivity {
                 switch (requestCode) {
                     case CONTACT_PICKER_RESULT1: {
                         String display = "" + name + "\n" + phone;
+                        names[0] = name;
                         numbers[0] = phone;
                         contact1.setText(display);
                         break;
                     }
                     case CONTACT_PICKER_RESULT2: {
                         String display = "" + name + "\n" + phone;
+                        names[1] = name;
                         numbers[1] = phone;
                         contact2.setText(display);
                         break;
@@ -200,11 +203,15 @@ public class FormActivity extends AppCompatActivity {
         String nameToSave = titleTxt.getText().toString();
         String locationToSave = locationTxt.getText().toString();
         StringBuilder strBuilder = new StringBuilder();
-        for (String s : numbers) {
-            if (s != null) {
-                String clean = s.replace("(", "").replace(" ", "").replace("-", "").replace(")", "");
+        for(int i = 0; i < 2; i++) {
+            String n = names[i];
+            String p = numbers[i];
+            if (p != null && !p.isEmpty()) {
+                String clean = p.replace("(", "").replace(" ", "").replace("-", "").replace(")", "");
+                strBuilder.append(n);
+                strBuilder.append(", ");
                 strBuilder.append(clean);
-                strBuilder.append(',');
+                strBuilder.append('\n');
             } else {
                 strBuilder.append("");
             }
@@ -301,7 +308,7 @@ public class FormActivity extends AppCompatActivity {
             instance.set(Calendar.MONTH, monthOfYear);
             instance.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             String toDisplay = DateFormat.getDateInstance().format(instance.getTime());
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             IdHolder.getInstance().setSaveDate(format.format(instance.getTime()));
             toEdit.setText(toDisplay);
         }
