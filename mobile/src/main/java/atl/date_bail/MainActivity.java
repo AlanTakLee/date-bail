@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
                 switchFragment(position);
             }
         });
+        drawerList.performItemClick(drawerList.getAdapter().getView(0, null, null), 0, 0);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
