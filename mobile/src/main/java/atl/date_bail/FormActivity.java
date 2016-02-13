@@ -10,11 +10,11 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -47,16 +47,20 @@ public class FormActivity extends AppCompatActivity {
 
     private void setupTimePicker() {
         RelativeLayout timeLayout = (RelativeLayout) findViewById(R.id.dateFormTimeLayout);
+        ImageView clockImg = (ImageView) findViewById(R.id.dateFormEventTimeIcon);
         final TextView time = (TextView) findViewById(R.id.dateFormEventTimeText);
-        timeLayout.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener timePick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Test", "Captured!");
-                DialogFragment timeFrag = new TimePickerFragment();
+                DialogFragment timeFrag = new TimePickerFragment();     //time-picker popup
                 ((TimePickerFragment) timeFrag).setToEdit(time);
                 timeFrag.show(getSupportFragmentManager(), "timePick");
             }
-        });
+        };
+        timeLayout.setOnClickListener(timePick);
+        time.setOnClickListener(timePick);
+        clockImg.setOnClickListener(timePick);
     }
 
     private void setupContactPicker() {
@@ -186,7 +190,7 @@ public class FormActivity extends AppCompatActivity {
             Calendar instance = Calendar.getInstance();
             instance.set(Calendar.HOUR_OF_DAY, hourOfDay);
             instance.set(Calendar.MINUTE, minute);
-            SimpleDateFormat format = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
             String toDisplay = format.format(instance.getTime());
             toEdit.setText(toDisplay);
         }
