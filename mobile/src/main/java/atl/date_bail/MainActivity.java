@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
     }
 
     private void switchFragment(int position) {
+        currentPosition = position;
         Fragment fragment = null;
         switch (position) {
             case 0: {
