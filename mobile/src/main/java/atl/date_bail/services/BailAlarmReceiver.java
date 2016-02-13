@@ -14,6 +14,7 @@ import atl.date_bail.R;
 
 public class BailAlarmReceiver extends BroadcastReceiver {
     public static final int BAIL_NOTI_ID = 1945;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
@@ -35,6 +36,7 @@ public class BailAlarmReceiver extends BroadcastReceiver {
         bailIntent.putExtra("id", maybeid);
         PendingIntent bail = PendingIntent.getService(context, 1002, bailIntent, PendingIntent.FLAG_ONE_SHOT);
 
+        long[] vibratePattern = {100, 50, 100, 50, 100, 50, 200, 100, 200, 100, 200, 100, 100, 50, 100, 50, 100, 50};
         NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_edit_black_48dp)
@@ -46,6 +48,7 @@ public class BailAlarmReceiver extends BroadcastReceiver {
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
+        mBuilder.setVibrate(vibratePattern);
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(BAIL_NOTI_ID, mBuilder.build());

@@ -319,7 +319,6 @@ public class FormActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         StringBuilder strBuilder = new StringBuilder();
 
-        Log.i("idsPr", "" + IdHolder.getInstance().getLastId());
         Long idToSave = IdHolder.getInstance().getLastId();
         String nameToSave = titleTxt.getText().toString();
         String locationToSave = locationTxt.getText().toString();
@@ -357,8 +356,6 @@ public class FormActivity extends AppCompatActivity {
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateToSave);
             long temp = IdHolder.getInstance().getLastId() + 1;
             IdHolder.getInstance().setLastId(temp);
-            Log.i("idspo", "" + IdHolder.getInstance().getLastId());
-            Log.i("idspos", "" + IdHolder.getInstance().getLastId());
         } else {
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, currentDateInfo.getId());
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeTxt.getText().toString());
@@ -389,7 +386,7 @@ public class FormActivity extends AppCompatActivity {
         String toParse = dateToSave + " " + timeToSave;
         try {
             Date date = sdf.parse(toParse);
-            Log.i("time", "" + date.getTime());
+            //todo: set an alarm at this time
         } catch (ParseException e) {
             e.printStackTrace();
         }
