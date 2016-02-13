@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="wrap_content"
@@ -9,157 +9,171 @@
                   android:orientation="vertical"
                   android:weightSum="1">
 
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="4dp" />
-
         <EditText
-            android:layout_width="382dp"
-            android:layout_height="70dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/dateFormEventNameEditText"
-            android:hint="Enter a name for this event" />
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="4dp" />
+            android:layout_margin="5dp"
+            android:hint="Enter a name for this event"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:layout_weight="3.25">
-
-            <TextView
-                android:layout_width="160dp"
-                android:layout_height="35dp"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/dateFormEventDateText"
-                android:hint="Date"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:layout_alignBottom="@+id/dateFormEventDateIcon"
-                android:layout_alignStart="@+id/imageView" />
-
-            <TextView
-                android:layout_width="160dp"
-                android:layout_height="35dp"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/dateFormEventTimeText"
-                android:layout_gravity="right"
-                android:hint="Time"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:layout_alignBottom="@+id/dateFormEventTimeIcon"
-                android:layout_alignParentEnd="true" />
+            android:layout_height="120dp"
+            >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/dateFormEventDateIcon"
-                android:src="@drawable/ic_event_black_48dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/dateFormEventDateText" />
-
-            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/dateFormEventTimeIcon"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_event_black_48dp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/dateFormEventDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="3dp"
+                android:layout_alignBottom="@+id/dateFormEventDateIcon"
+                android:layout_alignStart="@+id/dateFormEventLocationEditText"
+                android:layout_alignTop="@+id/dateFormEventTimeIcon"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toStartOf="@+id/textView"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Date"
+                android:inputType="date"
+                android:text="Date"
+                android:textSize="20dp"
+                android:layout_margin="5dp"/>
+
+            <ImageView
                 android:id="@+id/dateFormEventTimeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/ic_schedule_black_48dp"
-                android:layout_alignTop="@+id/dateFormEventDateIcon"
-                android:layout_alignStart="@+id/dateFormEventTimeText" />
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/dateFormEventDateText"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/dateFormEventTimeText"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Time"
+                android:inputType="time"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/dateFormEventTimeIcon"
+                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@+id/dateFormEventDateIcon"
+                android:layout_margin="5dp"/>
+
+            <ImageView
+                android:id="@+id/dateFormEvenLocationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_room_black_48dp"
+                android:layout_margin="5dp"/>
 
             <EditText
+                android:id="@+id/dateFormEventLocationEditText"
                 android:layout_width="303dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/dateFormEventLocationEditText"
+                android:layout_alignBottom="@+id/dateFormEvenLocationIcon"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/dateFormEvenLocationIcon"
                 android:hint="Add location"
-                android:layout_gravity="right"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_alignParentEnd="true" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-            <ImageView
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:src="@drawable/ic_room_black_48dp"
-                android:layout_alignParentBottom="true"
-                android:layout_toStartOf="@+id/dateFormEventLocationEditText" />
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
             android:id="@+id/dateFormEventDescriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="Enter a description"
-            android:layout_weight="10.94"
-            android:gravity="bottom" />
+            android:layout_margin="5dp"
+            android:gravity="bottom"
+            android:hint="Enter a description"/>
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
             android:id="@+id/dateFormEventPrimaryText"
-            android:hint="Primary contact"
-            android:textSize="15dp"
-            android:layout_gravity="bottom"
-            android:textAlignment="gravity"
-            android:gravity="center" />
-
-        <TextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:id="@+id/dateFormEventSecondaryText"
-            android:layout_weight="3.19"
-            android:hint="Secondary contact"
-            android:textSize="15dp"
-            android:layout_gravity="center_horizontal|bottom"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:hint="Primary contact"
             android:textAlignment="gravity"
-            android:gravity="center|center_vertical" />
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/dateFormEventSecondaryText"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="5dp"
+            android:layout_weight="3.19"
+            android:gravity="center|center_vertical"
+            android:hint="Secondary contact"
+            android:textAlignment="gravity"
+            android:textSize="15dp"/>
 
         <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/dateFormEventIntervalSpinnerDialog"
-            android:spinnerMode="dialog" />
-
-        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:spinnerMode="dialog"/>
+
+        <Spinner
             android:id="@+id/dateFormEventResponseSpinnerDialog"
-            android:layout_gravity="center_horizontal"
-            android:spinnerMode="dialog" />
-
-        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dateFormEventVibrationSpinnerDialog"
             android:layout_gravity="center_horizontal"
-            android:spinnerMode="dialog" />
+            android:layout_margin="5dp"
+            android:spinnerMode="dialog"/>
+
+        <Spinner
+            android:id="@+id/dateFormEventVibrationSpinnerDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:spinnerMode="dialog"/>
 
         <Button
+            android:id="@+id/dateFormEventButtonDelete"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="DELETE"
-            android:id="@+id/dateFormEventButtonDelete"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:text="DELETE"/>
 
     </LinearLayout>
 </ScrollView>
