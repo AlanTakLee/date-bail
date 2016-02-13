@@ -371,9 +371,7 @@ public class FormActivity extends AppCompatActivity {
             instance.set(Calendar.SECOND, 0);
             SimpleDateFormat format = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
             String toDisplay = format.format(instance.getTime());
-
-            SimpleDateFormat format1 = new SimpleDateFormat("hh:mm:ss aa", Locale.getDefault());
-            IdHolder.getInstance().setSaveTime(format1.format(instance.getTime()));
+            IdHolder.getInstance().setSaveTime(toDisplay);
             toEdit.setText(toDisplay);
         }
     }
