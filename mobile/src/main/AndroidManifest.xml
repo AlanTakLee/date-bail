@@ -21,8 +21,10 @@
             android:exported="false"/>
         <service
             android:name=".services.DelayBailService"
-            android:exported="false"
-            />
+            android:exported="false"/>
+        <service
+            android:name=".services.DelayedAlarmService"
+            android:exported="false"/>
 
         <activity
             android:name=".MainActivity"

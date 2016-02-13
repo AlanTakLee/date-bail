@@ -1,9 +1,12 @@
 package atl.date_bail;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,6 +39,7 @@ import atl.date_bail.model.DateInfo;
 import atl.date_bail.model.DateReaderContract;
 import atl.date_bail.model.DateReaderDbHelper;
 import atl.date_bail.model.IdHolder;
+import atl.date_bail.services.DelayedAlarmService;
 
 public class FormActivity extends AppCompatActivity {
 
@@ -388,7 +392,15 @@ public class FormActivity extends AppCompatActivity {
         String toParse = dateToSave + " " + timeToSave;
         try {
             Date date = sdf.parse(toParse);
-            //todo: set an alarm at this time
+            // Only trigger alarm manager if later than now
+            if (date.getTime() > Calendar.getInstance().getTime().getTime()) {
+                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(getBaseContext(), DelayedAlarmService.class);
+                intent.putExtra("id", idToSave);
+                PendingIntent sender = PendingIntent.getService(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                am.cancel(sender);
+                am.set(AlarmManager.RTC_WAKEUP, date.getTime(), sender);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

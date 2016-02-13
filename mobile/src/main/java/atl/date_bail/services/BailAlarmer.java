@@ -23,6 +23,7 @@ public class BailAlarmer {
 
         // Get the AlarmManager service
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(sender);
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
     }
 
