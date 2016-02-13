@@ -19,12 +19,6 @@ import atl.date_bail.model.DateInfo;
 import atl.date_bail.model.DateReaderContract;
 import atl.date_bail.model.DateReaderDbHelper;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link DateFragmentInteractionListener}
- * interface.
- */
 public class DateFragment extends Fragment {
 
     private DateFragmentInteractionListener mListener;
@@ -37,16 +31,12 @@ public class DateFragment extends Fragment {
     public DateFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static DateFragment newInstance(int columnCount) {
-        return new DateFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         items = new ArrayList<>();
+        //TODO: remove fake data
+
         populateFakeData();
         Cursor data = readData();
         populateArray(data, items);
@@ -100,8 +90,6 @@ public class DateFragment extends Fragment {
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-// Define a projection that specifies which columns from the database
-// you will actually use after this query.
         String[] projection = {
             DateReaderContract.DateEntry.COLUMN_NAME_ID,
             DateReaderContract.DateEntry.COLUMN_NAME_NAME,
@@ -114,10 +102,7 @@ public class DateFragment extends Fragment {
 
         };
 
-// How you want the results sorted in the resulting Cursor
-        String sortOrder =
-            DateReaderContract.DateEntry.COLUMN_NAME_ID + " DESC";
-
+        String sortOrder = DateReaderContract.DateEntry.COLUMN_NAME_DATE + " DESC";
 
         Cursor data = db.query(
             DateReaderContract.DateEntry.TABLE_NAME,  // The table to query
@@ -214,16 +199,6 @@ public class DateFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface DateFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListClick(DateInfo item);
