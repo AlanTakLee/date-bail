@@ -6,18 +6,16 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import atl.date_bail.model.DateInfo;
-import atl.date_bail.services.BailAlarmer;
 
 public class MainActivity extends AppCompatActivity implements DateFragment.DateFragmentInteractionListener {
     private String[] drawerTitles;
@@ -31,12 +29,29 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        final Context context = this;
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerTitles = getResources().getStringArray(R.array.draweritems);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
+
+        final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.placeholder, R.string.placeholder) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                this.syncState();
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                this.syncState();
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        final Context context = this;
+
+        drawerToggle.syncState();
 
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_item_layout, R.id.drawerTitleTxt, drawerTitles));
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -47,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         });
         drawerList.performItemClick(drawerList.getAdapter().getView(0, null, null), 0, 0);
 
+        drawerLayout.setDrawerListener(drawerToggle);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +111,21 @@ public class MainActivity extends AppCompatActivity implements DateFragment.Date
         extras.putLong("id", item.getId());
         intent.putExtras(extras);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU: {
+                if (!drawerLayout.isDrawerOpen(drawerList)) {
+                    drawerLayout.openDrawer(drawerList);
+                }
+                if (drawerLayout.isDrawerOpen(drawerList)) {
+                    drawerLayout.closeDrawer(drawerList);
+                }
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

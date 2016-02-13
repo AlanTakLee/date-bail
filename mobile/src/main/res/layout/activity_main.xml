@@ -30,14 +30,7 @@
                     android:contentDescription="@string/logo"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/DateBailName_line_v2_trans"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:contentDescription="@string/logo"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:src="@drawable/ic_menu_black_48dp"
-                    android:id="@+id/toolbarMenuLogoButton" />
+                    android:src="@drawable/date_bail_name_line_v2_trans"/>
 
             </android.support.v7.widget.Toolbar>
 

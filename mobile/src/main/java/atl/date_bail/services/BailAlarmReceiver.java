@@ -40,7 +40,11 @@ public class BailAlarmReceiver extends BroadcastReceiver {
         PendingIntent bail = PendingIntent.getService(context, 1002, bailIntent, PendingIntent.FLAG_ONE_SHOT);
 
         // build notification
-        long[] vibratePattern = {100, 50, 100, 50, 100, 50, 200, 100, 200, 100, 200, 100, 100, 50, 100, 50, 100, 50};
+        // Easter Egg:
+        long[] vibratePattern = {
+            200, 50, 200, 50, 200, 50,
+            400, 50, 400, 50, 400, 50,
+            200, 50, 200, 50, 200, 50};
         NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_edit_black_48dp)

@@ -12,6 +12,13 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/date_bail_name_line_v2_trans"/>
+
         <Button
             android:id="@+id/formToolbarSaveBtn"
             android:layout_width="wrap_content"
@@ -24,12 +31,6 @@
             android:minHeight="32dp"
             android:minWidth="32dp"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:contentDescription="@string/logo"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/DateBailName_line_v2_trans"/>
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -96,8 +97,8 @@
                     android:layout_height="match_parent"
                     android:layout_above="@+id/dateFormEventLocationEditText"
                     android:layout_toEndOf="@+id/textView"
-                    android:focusable="false"
-                    android:clickable="false">
+                    android:clickable="false"
+                    android:focusable="false">
 
                     <ImageView
                         android:id="@+id/dateFormEventTimeIcon"
