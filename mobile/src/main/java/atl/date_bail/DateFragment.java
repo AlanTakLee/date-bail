@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,17 +78,18 @@ public class DateFragment extends Fragment {
             dates.add(current);
         }
         data.moveToLast();
-        if (data.getPosition() > 0)
-            IdHolder.getInstance().setLastId(data.getLong(0));
-        else
+        if (data.getPosition() > 0) {
+            IdHolder.getInstance().setLastId(data.getLong(data.getColumnIndex(DateReaderContract.DateEntry.COLUMN_NAME_ID)) + 1);
+        } else {
             IdHolder.getInstance().setLastId(0L);
+        }
     }
 
     private Cursor readData() {
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String sortOrder = DateReaderContract.DateEntry.COLUMN_NAME_DATE + " DESC";
+        String sortOrder = DateReaderContract.DateEntry.COLUMN_NAME_ID + " ASC";
 
         return db.query(
             DateReaderContract.DateEntry.TABLE_NAME,  // The table to query

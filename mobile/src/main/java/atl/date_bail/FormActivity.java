@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +26,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import atl.date_bail.model.DateInfo;
@@ -316,7 +319,8 @@ public class FormActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         StringBuilder strBuilder = new StringBuilder();
 
-        Long idToSave = IdHolder.getInstance().getLastId() + 1;
+        Log.i("idsPr", "" + IdHolder.getInstance().getLastId());
+        Long idToSave = IdHolder.getInstance().getLastId();
         String nameToSave = titleTxt.getText().toString();
         String locationToSave = locationTxt.getText().toString();
         for (int i = 0; i < 2; i++) {
@@ -351,6 +355,10 @@ public class FormActivity extends AppCompatActivity {
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, idToSave);
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeToSave);
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateToSave);
+            long temp = IdHolder.getInstance().getLastId() + 1;
+            IdHolder.getInstance().setLastId(temp);
+            Log.i("idspo", "" + IdHolder.getInstance().getLastId());
+            Log.i("idspos", "" + IdHolder.getInstance().getLastId());
         } else {
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, currentDateInfo.getId());
             values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeTxt.getText().toString());
@@ -358,7 +366,6 @@ public class FormActivity extends AppCompatActivity {
 
         }
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_NAME, nameToSave);
-
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_LOCATION, locationToSave);
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS, bailersToSave);
         values.put(DateReaderContract.DateEntry.COLUMN_NAME_NOTES, notesToSave);
@@ -378,6 +385,14 @@ public class FormActivity extends AppCompatActivity {
                 values, selection, args);
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm aa", Locale.getDefault());
+        String toParse = dateToSave + " " + timeToSave;
+        try {
+            Date date = sdf.parse(toParse);
+            Log.i("time", "" + date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         finish();
     }
 
