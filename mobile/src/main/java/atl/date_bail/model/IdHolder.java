@@ -1,9 +1,7 @@
 package atl.date_bail.model;
 
-/**
- * Created by Alan on 12/02/2016.
- */
 public class IdHolder {
+    // Singleton to keep track of ids and some time strings
     private static IdHolder instance = null;
     private long lastId;
     private String saveDate;

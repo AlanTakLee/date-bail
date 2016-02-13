@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +52,8 @@ public class FormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+
+        // check if the intent came from list or fab
         currentDateInfo = new DateInfo();
         Intent intent = getIntent();
         Bundle bund = intent.getExtras();
@@ -64,6 +65,7 @@ public class FormActivity extends AppCompatActivity {
                 populateForm();
             }
         }
+        // setup UI elements
         setupDeleteButton();
         setupToolbar();
         setupTimePicker();

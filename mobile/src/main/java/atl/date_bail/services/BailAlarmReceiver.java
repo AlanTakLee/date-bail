@@ -18,6 +18,7 @@ public class BailAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
+            // do when we receive the alarm
             showNotification(context, intent.getExtras().getLong("id", -1));
         } catch (Exception e) {
             Toast.makeText(context, "There was an error somewhere, but we still received an alarm", Toast.LENGTH_SHORT).show();
@@ -28,14 +29,17 @@ public class BailAlarmReceiver extends BroadcastReceiver {
     private void showNotification(Context context, long maybeid) {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 1945, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Service to re-set the alarm ~15 mins later
         Intent delayIntent = new Intent(context, DelayBailService.class);
         delayIntent.putExtra("id", maybeid);
         PendingIntent delay = PendingIntent.getService(context, 1001, delayIntent, PendingIntent.FLAG_ONE_SHOT);
 
+        // Service that fires off texts
         Intent bailIntent = new Intent(context, BailingService.class);
         bailIntent.putExtra("id", maybeid);
         PendingIntent bail = PendingIntent.getService(context, 1002, bailIntent, PendingIntent.FLAG_ONE_SHOT);
 
+        // build notification
         long[] vibratePattern = {100, 50, 100, 50, 100, 50, 200, 100, 200, 100, 200, 100, 100, 50, 100, 50, 100, 50};
         NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(context)
@@ -50,6 +54,7 @@ public class BailAlarmReceiver extends BroadcastReceiver {
         mBuilder.setAutoCancel(true);
         mBuilder.setVibrate(vibratePattern);
 
+        // display noti
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(BAIL_NOTI_ID, mBuilder.build());
     }

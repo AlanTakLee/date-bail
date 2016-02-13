@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +39,7 @@ public class DateFragment extends Fragment {
         populateArray(readData(), items);
     }
 
+    // date a cursor to all "Date" data and populate a list
     private void populateArray(Cursor data, List<DateInfo> dates) {
         while (data.moveToNext()) {
             DateInfo current = new DateInfo();
@@ -85,6 +85,7 @@ public class DateFragment extends Fragment {
         }
     }
 
+    // Query and return data cursor
     private Cursor readData() {
         DateReaderDbHelper mDbHelper = new DateReaderDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();

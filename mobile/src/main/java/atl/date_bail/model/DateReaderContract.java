@@ -2,11 +2,9 @@ package atl.date_bail.model;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by Alan on 12/02/2016.
- */
 public final class DateReaderContract {
 
+    // Define SQLite contract
     public DateReaderContract() {
     }
 

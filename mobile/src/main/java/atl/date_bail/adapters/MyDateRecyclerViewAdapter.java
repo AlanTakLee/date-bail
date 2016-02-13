@@ -18,6 +18,7 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
     private final DateFragment.DateFragmentInteractionListener mListener;
 
     public MyDateRecyclerViewAdapter(List<DateInfo> items, DateFragment.DateFragmentInteractionListener listener) {
+        // initialize class
         mValues = items;
         mListener = listener;
     }
@@ -31,11 +32,13 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // bind views with data
         holder.mItem = mValues.get(position);
         holder.titleTxt.setText(mValues.get(position).getName());
         holder.timeTxt.setText(mValues.get(position).getDate());
         holder.contactTxt.setText(mValues.get(position).getBailouts());
 
+        // set clicker callback
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +71,5 @@ public class MyDateRecyclerViewAdapter extends RecyclerView.Adapter<MyDateRecycl
             contactTxt = (TextView) view.findViewById(R.id.dateSummaryContactTxt);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + timeTxt.getText() + "'";
-        }
     }
 }

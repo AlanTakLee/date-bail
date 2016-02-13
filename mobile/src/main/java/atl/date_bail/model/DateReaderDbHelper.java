@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Alan on 12/02/2016.
- */
 public class DateReaderDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;

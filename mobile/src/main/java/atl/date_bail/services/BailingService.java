@@ -84,6 +84,7 @@ public class BailingService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        // dismiss notification if it makes it here
         NotificationManager mNotificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(BailAlarmReceiver.BAIL_NOTI_ID);
         Bundle bundle = intent.getExtras();
