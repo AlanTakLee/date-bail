@@ -11,6 +11,8 @@
         android:id="@+id/drawerTitleTxt"
         android:padding="5dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
 </RelativeLayout>
