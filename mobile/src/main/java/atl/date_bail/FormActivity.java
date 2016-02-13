@@ -3,8 +3,10 @@ package atl.date_bail;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -28,6 +30,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import atl.date_bail.model.DateInfo;
+import atl.date_bail.model.DateReaderContract;
+import atl.date_bail.model.DateReaderDbHelper;
 import atl.date_bail.model.IdHolder;
 
 public class FormActivity extends AppCompatActivity {
@@ -192,20 +196,50 @@ public class FormActivity extends AppCompatActivity {
         EditText locationTxt = (EditText) findViewById(R.id.dateFormEventLocationEditText);
         EditText descTxt = (EditText) findViewById(R.id.dateFormEventDescriptionEditText);
 
-        currentDateInfo.setName(titleTxt.getText().toString());
-        currentDateInfo.setLocation(locationTxt.getText().toString());
-        currentDateInfo.setNotes(descTxt.getText().toString());
-
+        Long idToSave = IdHolder.getInstance().getLastId() + 1;
+        String nameToSave = titleTxt.getText().toString();
+        String locationToSave = locationTxt.getText().toString();
         StringBuilder strBuilder = new StringBuilder();
-        for (String s: numbers){
-            strBuilder.append(s);
+        for (String s : numbers) {
+            if (s != null) {
+                String clean = s.replace("(", "").replace(" ", "").replace("-", "").replace(")", "");
+                strBuilder.append(clean);
+                strBuilder.append(',');
+            } else {
+                strBuilder.append("");
+            }
         }
-        currentDateInfo.setBailouts(strBuilder.toString());
+        String bailers = strBuilder.toString();
+        String bailersToSave = bailers.substring(0, bailers.length() - 1);
+        String dateToSave = IdHolder.getInstance().getSaveDate();
+        String timeToSave = IdHolder.getInstance().getSaveTime();
+        String notesToSave = descTxt.getText().toString();
 
-        Log.i("debug", strBuilder.toString());
+        currentDateInfo.setName(nameToSave);
+        currentDateInfo.setLocation(locationToSave);
+        currentDateInfo.setNotes(notesToSave);
+        currentDateInfo.setBailouts(bailersToSave);
         currentDateInfo.setDate(IdHolder.getInstance().getSaveDate());
         currentDateInfo.setTime(IdHolder.getInstance().getSaveTime());
-        currentDateInfo.setId(IdHolder.getInstance().getLastId());
+        currentDateInfo.setId(idToSave);
+
+        ContentValues values = new ContentValues();
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_ID, idToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_NAME, nameToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_TIME, timeToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_DATE, dateToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_LOCATION, locationToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_CONTACTS, bailersToSave);
+        values.put(DateReaderContract.DateEntry.COLUMN_NAME_NOTES, notesToSave);
+        // Insert the new row, returning the primary key value of the new row
+        DateReaderDbHelper mDbHelper = new DateReaderDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        long insert = db.insert(
+            DateReaderContract.DateEntry.TABLE_NAME,
+            null,
+            values);
+        Log.i("insertion", "Long: " + insert);
+
         finish();
     }
 

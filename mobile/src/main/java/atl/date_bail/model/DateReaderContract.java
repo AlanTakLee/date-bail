@@ -20,7 +20,6 @@ public final class DateReaderContract {
             DateEntry._ID + " INTEGER PRIMARY KEY," +
             DateEntry.COLUMN_NAME_ID + INT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
-            DateEntry.COLUMN_NAME_IMAGE_PATH + TEXT_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_TIME + TIME_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_DATE + DATE_TYPE + COMMA_SEP +
             DateEntry.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
@@ -35,7 +34,6 @@ public final class DateReaderContract {
         public static final String TABLE_NAME = "dates";
         public static final String COLUMN_NAME_ID = "dateId";
         public static final String COLUMN_NAME_NAME = "dateName";
-        public static final String COLUMN_NAME_IMAGE_PATH = "dateImgPath";
         public static final String COLUMN_NAME_TIME = "dateTime";
         public static final String COLUMN_NAME_DATE = "dateDate";
         public static final String COLUMN_NAME_LOCATION = "dateLocation";
